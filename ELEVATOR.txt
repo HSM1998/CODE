@@ -1,0 +1,199 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 03/29/2019 02:54:07 PM
+// Design Name: 
+// Module Name: ELEVATOR
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module ELEVATOR(
+    input [1:0] UD,
+    input CLK,
+    output STEP,
+    output DIR
+    );
+    reg STEP;
+    reg DIR;
+    reg SERVO;
+    reg [1:0]PS = 2'b00;
+    reg [1:0]NS = 2'b00;
+    reg [10:0]x;
+    
+    
+always@( posedge CLK)
+begin    
+//GROUND FLOUR
+if(UD == 2'b00)
+begin
+NS = UD;
+if(PS == 2'b00)
+begin
+DIR = 1'b1;
+STEP = 1'b0;
+end
+else if(PS == 2'b01)
+begin
+DIR = 1'b0;
+for( x = 0; x < 365 ; x= x+1) 
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end
+end
+else if(PS == 2'b10)
+begin
+DIR = 1'b0;
+for( x = 0; x < 720; x= x+1) 
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end 
+end
+else
+begin
+DIR = 1'b0;
+for( x = 0; x < 1095; x= x+1) 
+begin
+#1000000000 STEP = 1'B1;
+#1000000000 STEP = 1'B0;
+end                
+end
+PS = NS;
+end
+                
+                
+                
+//FIRST FLOUR
+else  if(UD == 2'b01)
+begin
+ NS = UD;
+if(PS == 2'b00)
+begin
+DIR = 1'b1;
+for( x = 0; x < 365; x= x+1)  
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end
+end
+else if(PS == 2'b01)
+begin
+DIR = 1'b1;
+STEP = 1'b0;
+end
+else if(PS == 2'b10)
+begin
+DIR = 1'b0;
+for( x = 0; x < 365; x= x+1) 
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end
+end
+else
+begin
+DIR = 1'b0;
+for( x = 0; x < 720; x= x+1) 
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end               
+end  
+PS = NS;
+end
+                                
+                                
+//SECOND FLOUR
+else if(UD == 2'b10)
+begin
+NS = UD;
+if(PS == 2'b00)
+begin
+DIR = 1'b1;
+for( x = 0; x < 720; x= x+1) 
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end 
+end
+else if(PS == 2'b01)
+begin
+DIR = 1'b1;
+for( x = 0; x < 365; x= x+1) 
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end 
+end
+else if(PS == 2'b10)
+begin
+DIR = 1'b1;
+STEP = 1'b0;
+end
+else
+begin
+DIR = 1'b0;
+for( x = 0; x < 365; x= x+1) 
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end               
+end
+PS = NS;
+end
+                                                
+                                                
+//THIRD FLOUR
+else  if(UD == 2'b11)
+begin
+NS = UD;
+if(PS == 2'b00)
+begin
+DIR = 1'b1;
+for( x = 0; x < 1095; x= x+1) 
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end 
+end
+else if(PS == 2'b01)
+begin
+DIR = 1'b1;
+for( x = 0; x < 720; x= x+1) 
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end 
+end
+else if(PS == 2'b10)
+begin
+DIR = 1'b1;
+for( x = 0; x < 365; x= x+1) 
+begin
+#1000000000 STEP = 1'b1;
+#1000000000 STEP = 1'b0;
+end 
+end
+else
+begin
+DIR = 1'b1;
+STEP = 1'b0;               
+end
+PS = NS;
+end
+end
+endmodule
